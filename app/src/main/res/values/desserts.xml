@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="desserts">
+        <item>Тирамису</item>
+        <item>Альфахор</item>
+        <item>Блины из листьев пандануса</item>
+        <item>Вагаси</item>
+        <item>Шоколадный торт \"Гиннес\"</item>
+        <item>Гулабджамун</item>
+        <item>Торт \"Захер\"</item>
+        <item>Куксистеры</item>
+        <item>Торт \"Павлова\"</item>
+        <item>Пахлава</item>
+        <item>Чизкейк</item>
+        <item>Пикаронес</item>
+        <item>Пудинг</item>
+        <item>\"Русская шапка\"</item>
+        <item>Трдло</item>
+        <item>Чуррос</item>
+        <item>Эклер</item>
+        <item>Фрукты в карамели</item>
+        <item>Сырники</item>
+        <item>Печенье хангва</item>
+    </string-array>
+</resources>
