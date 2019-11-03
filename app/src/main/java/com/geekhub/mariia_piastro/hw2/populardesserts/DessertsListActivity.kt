@@ -1,9 +1,10 @@
 package com.geekhub.mariia_piastro.hw2.populardesserts
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.appcompat.app.AppCompatActivity
 
-class DessertDetailActivity : AppCompatActivity() {
+
+class DessertsListActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -11,8 +12,9 @@ class DessertDetailActivity : AppCompatActivity() {
 
         if (savedInstanceState == null) {
             supportFragmentManager.beginTransaction().run {
-                add(R.id.fragment_container, DessertDetailFragment())
-                commit()}
+                add(R.id.fragment_container, DessertsListFragment())
+                commit()
+            }
         }
     }
 }

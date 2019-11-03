@@ -4,31 +4,24 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
-import android.widget.TextView
 import androidx.fragment.app.Fragment
+import kotlinx.android.synthetic.main.fragment_dessert_detail.view.*
 
 
 class DessertDetailFragment : Fragment() {
 
     private lateinit var desserts: Desserts
-    private lateinit var textViewTitleDessertDetailActivity: TextView
-    private lateinit var textViewDessertInfoDetailActivity: TextView
-    private lateinit var imageViewDessertDetailActivity: ImageView
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val v: View = inflater.inflate(R.layout.fragment_dessert_detail, container, false)
-        textViewDessertInfoDetailActivity = v.findViewById(R.id.textViewDessertInfoDetailActivity)
-        textViewTitleDessertDetailActivity = v.findViewById(R.id.textViewTitleDessertDetailActivity)
-        imageViewDessertDetailActivity = v.findViewById(R.id.imageViewDessertDetailActivity)
-        return v
+        val view: View = inflater.inflate(R.layout.fragment_dessert_detail, container, false)
+        view.textViewTitleDessertDetailActivity.text = activity?.intent?.getStringExtra(DessertsListFragment.TITLE)
+        view.textViewDessertInfoDetailActivity.text = activity?.intent?.getStringExtra(DessertsListFragment.INFO)
+        val image = activity?.intent?.getIntExtra(DessertsListFragment.IMAGE,0)?: 0
+        view.imageViewDessertDetailActivity.setImageResource(image)
+        return view
     }
 
 }
