@@ -10,9 +10,10 @@ class DessertDetailActivity : AppCompatActivity() {
         setContentView(R.layout.activity_fragment)
 
         if (savedInstanceState == null) {
-            supportFragmentManager.beginTransaction().run {
-                add(R.id.fragment_container, DessertDetailFragment())
-                commit()}
+            supportFragmentManager
+                .beginTransaction()
+                .add(R.id.fragment_container_titles, DessertDetailFragment())
+                .commit()
         }
     }
 }

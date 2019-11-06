@@ -10,16 +10,28 @@ import kotlinx.android.synthetic.main.fragment_dessert_detail.view.*
 
 class DessertDetailFragment : Fragment() {
 
-    private lateinit var desserts: Desserts
+    companion object {
+
+        private const val DESSERT = "dessert"
+
+        fun newInstance(desserts: Desserts): DessertDetailFragment {
+            val args = Bundle()
+            args.putSerializable(DESSERT, desserts)
+            val fragment = DessertDetailFragment()
+            fragment.arguments = args
+            return fragment
+        }
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         val view: View = inflater.inflate(R.layout.fragment_dessert_detail, container, false)
-        view.textViewTitleDessertDetailActivity.text = activity?.intent?.getStringExtra(DessertsListFragment.TITLE)
-        view.textViewDessertInfoDetailActivity.text = activity?.intent?.getStringExtra(DessertsListFragment.INFO)
-        val image = activity?.intent?.getIntExtra(DessertsListFragment.IMAGE,0)?: 0
+        val dessert = arguments!!.getSerializable(DESSERT) as Desserts
+        view.textViewTitleDessertDetailActivity.text = dessert.title
+        view.textViewDessertInfoDetailActivity.text = dessert.info
+        val image = dessert.image
         view.imageViewDessertDetailActivity.setImageResource(image)
         return view
     }

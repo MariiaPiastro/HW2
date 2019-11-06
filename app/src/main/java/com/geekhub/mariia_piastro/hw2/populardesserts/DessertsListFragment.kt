@@ -1,6 +1,6 @@
 package com.geekhub.mariia_piastro.hw2.populardesserts
 
-import android.content.Intent
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -10,16 +10,25 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.synthetic.main.activity_desserts_list_fragment.view.*
 
-class DessertsListFragment : Fragment(), DessertAdapter.Callback {
+class DessertsListFragment : Fragment() {
+
+    private val dessertAdapter by lazy { DessertAdapter(desserts) }
+    private var desserts: ArrayList<Desserts> = ArrayList()
 
     companion object {
-        const val TITLE = "title"
-        const val INFO = "info"
-        const val IMAGE = "image"
+        fun newInstance(callback: DessertAdapter.Callback): DessertsListFragment {
+            val fragment = DessertsListFragment()
+            fragment.setCallback(callback)
+            return fragment
+        }
     }
 
-    private val dessertAdapter by lazy { DessertAdapter(desserts, this) }
-    private var desserts: ArrayList<Desserts> = ArrayList()
+    fun setCallback(callback: DessertAdapter.Callback) = dessertAdapter.setCallback(callback)
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        createDessert()
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -27,9 +36,9 @@ class DessertsListFragment : Fragment(), DessertAdapter.Callback {
     ): View? {
         val view: View =
             inflater.inflate(R.layout.activity_desserts_list_fragment, container, false)
+        val activity = activity as Context
         val recyclerView: RecyclerView = view.recyclerView as RecyclerView
         recyclerView.layoutManager = LinearLayoutManager(activity)
-        createDessert()
         recyclerView.adapter = dessertAdapter
         return view
     }
@@ -44,13 +53,5 @@ class DessertsListFragment : Fragment(), DessertAdapter.Callback {
             desserts.add(Desserts(titles[i], dessertsInfo[i], image))
             i++
         }
-    }
-
-    override fun onItemClick(dessert: Desserts) {
-        val intent = Intent(activity, DessertDetailActivity::class.java)
-        intent.putExtra(TITLE, dessert.title)
-        intent.putExtra(INFO, dessert.info)
-        intent.putExtra(IMAGE, dessert.image)
-        startActivity(intent)
     }
 }
