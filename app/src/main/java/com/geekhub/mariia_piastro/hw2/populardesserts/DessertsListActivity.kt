@@ -1,14 +1,20 @@
 package com.geekhub.mariia_piastro.hw2.populardesserts
 
+import android.Manifest
+import android.content.Intent
+import android.content.pm.PackageManager
 import android.os.Bundle
 import android.widget.FrameLayout
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 import kotlinx.android.synthetic.main.activity_fragment.*
 
 
 class DessertsListActivity : AppCompatActivity(), DessertAdapter.Callback {
 
     private var DESSERT_KEY = "DESSERT"
+    private val REQUEST_CODE_PERMISSION_ACCESS_FINE_LOCATION = 1
     private var dessert: Desserts? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -23,8 +29,7 @@ class DessertsListActivity : AppCompatActivity(), DessertAdapter.Callback {
                     DessertsListFragment.newInstance()
                 )
                 .commit()
-        }
-        else dessert = savedInstanceState.getSerializable(DESSERT_KEY) as Desserts?
+        } else dessert = savedInstanceState.getSerializable(DESSERT_KEY) as Desserts?
 
         if (fragment_container_details != null) {
             if (supportFragmentManager.backStackEntryCount > 0)
@@ -34,8 +39,23 @@ class DessertsListActivity : AppCompatActivity(), DessertAdapter.Callback {
             supportFragmentManager
                 .beginTransaction()
                 .replace(R.id.fragment_container_titles, DessertsListFragment())
-                .replace(R.id.fragment_container_details, DessertDetailFragment.newInstance(dessert))
+                .replace(
+                    R.id.fragment_container_details,
+                    DessertDetailFragment.newInstance(dessert)
+                )
                 .commit()
+        }
+
+        buttonLocation.setOnClickListener {
+            if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
+                == PackageManager.PERMISSION_GRANTED
+            ) {
+                val intent = Intent(this, LocationActivity::class.java)
+                startActivity(intent)
+            } else {
+                ActivityCompat.requestPermissions(this, arrayOf<String>(
+                    Manifest.permission.ACCESS_FINE_LOCATION), REQUEST_CODE_PERMISSION_ACCESS_FINE_LOCATION);
+            }
         }
     }
 
