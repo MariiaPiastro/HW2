@@ -14,7 +14,7 @@ class DessertDetailFragment : Fragment() {
 
         private const val DESSERT = "dessert"
 
-        fun newInstance(desserts: Desserts): DessertDetailFragment {
+        fun newInstance(desserts: Desserts?): DessertDetailFragment {
             val args = Bundle()
             args.putSerializable(DESSERT, desserts)
             val fragment = DessertDetailFragment()
@@ -27,13 +27,16 @@ class DessertDetailFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val view: View = inflater.inflate(R.layout.fragment_dessert_detail, container, false)
-        val dessert = arguments!!.getSerializable(DESSERT) as Desserts
-        view.textViewTitleDessertDetailActivity.text = dessert.title
-        view.textViewDessertInfoDetailActivity.text = dessert.info
-        val image = dessert.image
-        view.imageViewDessertDetailActivity.setImageResource(image)
-        return view
+        return inflater.inflate(R.layout.fragment_dessert_detail, container, false)
     }
 
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        val dessert = arguments!!.getSerializable(DESSERT) as Desserts?
+        with(view) {
+            textViewTitleDessertDetailActivity.text = dessert?.title
+            textViewDessertInfoDetailActivity.text = dessert?.info
+            imageViewDessertDetailActivity.setImageResource(dessert?.image?: 0)
+        }
+    }
 }

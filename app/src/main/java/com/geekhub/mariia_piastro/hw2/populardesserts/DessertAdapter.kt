@@ -14,11 +14,8 @@ class DessertAdapter(
     interface Callback {
         fun onItemClick(dessert: Desserts)
     }
-    private var callback: Callback? = null
 
-    fun setCallback (callback: Callback) {
-        this.callback = callback
-    }
+    var callback: Callback? = null
 
     override fun onCreateViewHolder(p0: ViewGroup, p1: Int): ViewHolder {
         val view: View = LayoutInflater.from(p0.context).inflate(R.layout.list_item, p0, false)

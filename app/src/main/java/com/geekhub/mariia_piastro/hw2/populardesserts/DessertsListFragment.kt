@@ -14,33 +14,31 @@ class DessertsListFragment : Fragment() {
 
     private val dessertAdapter by lazy { DessertAdapter(desserts) }
     private var desserts: ArrayList<Desserts> = ArrayList()
+    private lateinit var mCallback: DessertAdapter.Callback
 
     companion object {
-        fun newInstance(callback: DessertAdapter.Callback): DessertsListFragment {
-            val fragment = DessertsListFragment()
-            fragment.setCallback(callback)
-            return fragment
-        }
+        fun newInstance(): DessertsListFragment = DessertsListFragment()
     }
-
-    fun setCallback(callback: DessertAdapter.Callback) = dessertAdapter.setCallback(callback)
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
+        mCallback = context as DessertAdapter.Callback
         createDessert()
     }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
-        val view: View =
-            inflater.inflate(R.layout.activity_desserts_list_fragment, container, false)
-        val activity = activity as Context
-        val recyclerView: RecyclerView = view.recyclerView as RecyclerView
-        recyclerView.layoutManager = LinearLayoutManager(activity)
-        recyclerView.adapter = dessertAdapter
-        return view
+    ): View? = inflater.inflate(R.layout.activity_desserts_list_fragment, container, false)
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        with(view.recyclerView) {
+            layoutManager = LinearLayoutManager(activity)
+            adapter = dessertAdapter.apply {
+                callback = mCallback
+            }
+        }
     }
 
     private fun createDessert() {
