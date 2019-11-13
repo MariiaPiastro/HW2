@@ -44,17 +44,23 @@ class DessertsListActivity : AppCompatActivity(), DessertAdapter.Callback {
                     DessertDetailFragment.newInstance(dessert)
                 )
                 .commit()
-        }
-
-        buttonLocation.setOnClickListener {
-            if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
-                == PackageManager.PERMISSION_GRANTED
-            ) {
-                val intent = Intent(this, LocationActivity::class.java)
-                startActivity(intent)
-            } else {
-                ActivityCompat.requestPermissions(this, arrayOf<String>(
-                    Manifest.permission.ACCESS_FINE_LOCATION), REQUEST_CODE_PERMISSION_ACCESS_FINE_LOCATION);
+        } else {
+            buttonLocation.setOnClickListener {
+                if (ContextCompat.checkSelfPermission(
+                        this,
+                        Manifest.permission.ACCESS_FINE_LOCATION
+                    )
+                    == PackageManager.PERMISSION_GRANTED
+                ) {
+                    val intent = Intent(this, LocationActivity::class.java)
+                    startActivity(intent)
+                } else {
+                    ActivityCompat.requestPermissions(
+                        this, arrayOf<String>(
+                            Manifest.permission.ACCESS_FINE_LOCATION
+                        ), REQUEST_CODE_PERMISSION_ACCESS_FINE_LOCATION
+                    );
+                }
             }
         }
     }
