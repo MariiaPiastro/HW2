@@ -11,9 +11,18 @@
             android:layout_height="wrap_content"
             android:text="@string/button_location"
             android:layout_margin="8dp"
-            android:background="@android:color/holo_blue_dark"
-            >
-    </Button>
+            android:background="@android:color/holo_blue_dark" />
+
+    <Button
+            android:id="@+id/buttonNotification"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/button_notification"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginBottom="8dp"
+            android:background="@android:color/holo_blue_dark" />
+
 
     <FrameLayout
             android:id="@+id/fragment_container_titles"

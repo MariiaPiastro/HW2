@@ -32,7 +32,7 @@ class LocationActivity : AppCompatActivity() {
 
     private val locationListener: LocationListener = object : LocationListener {
         override fun onLocationChanged(location: Location?) {
-            this@LocationActivity.textViewLocation.text = "" + location?.longitude + " : " + location?.latitude
+            this@LocationActivity.textViewLocation.text = String.format("Координаты: %s : %s", location?.latitude, location?.longitude)
         }
 
         override fun onStatusChanged(p0: String?, p1: Int, p2: Bundle?) {

@@ -4,4 +4,7 @@
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="button_location">Местоположение</string>
+    <string name="button_notification">Показать уведомление</string>
+    <string name="notification_title">Popular Desserts</string>
+    <string name="notification_text">Пора съесть что-то сладенькое</string>
 </resources>

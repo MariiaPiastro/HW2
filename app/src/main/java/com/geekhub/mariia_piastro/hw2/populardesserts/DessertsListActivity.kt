@@ -1,12 +1,18 @@
 package com.geekhub.mariia_piastro.hw2.populardesserts
 
 import android.Manifest
+import android.app.NotificationChannel
+import android.app.NotificationManager
+import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.os.Build
 import android.os.Bundle
 import android.widget.FrameLayout
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
+import androidx.core.app.NotificationCompat
+import androidx.core.app.NotificationManagerCompat
 import androidx.core.content.ContextCompat
 import kotlinx.android.synthetic.main.activity_fragment.*
 
@@ -20,6 +26,8 @@ class DessertsListActivity : AppCompatActivity(), DessertAdapter.Callback {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_fragment)
+
+        createNotificationChannel()
 
         if (savedInstanceState == null) {
             supportFragmentManager
@@ -45,23 +53,48 @@ class DessertsListActivity : AppCompatActivity(), DessertAdapter.Callback {
                 )
                 .commit()
         } else {
-            buttonLocation.setOnClickListener {
+            buttonLocation?.setOnClickListener {
                 if (ContextCompat.checkSelfPermission(
                         this,
                         Manifest.permission.ACCESS_FINE_LOCATION
                     )
                     == PackageManager.PERMISSION_GRANTED
-                ) {
-                    val intent = Intent(this, LocationActivity::class.java)
-                    startActivity(intent)
-                } else {
+                )
+                    startActivity(Intent(this, LocationActivity::class.java))
+                else
                     ActivityCompat.requestPermissions(
-                        this, arrayOf<String>(
+                        this, arrayOf(
                             Manifest.permission.ACCESS_FINE_LOCATION
                         ), REQUEST_CODE_PERMISSION_ACCESS_FINE_LOCATION
-                    );
-                }
+                    )
             }
+            buttonNotification?.setOnClickListener {
+
+                val noti =
+                    NotificationCompat.Builder(this, "CHANNEL ID").apply {
+                        setContentTitle(getString(R.string.notification_title))
+                        setContentText(getString(R.string.notification_text))
+                        setSmallIcon(R.drawable.cake)
+                        priority = NotificationCompat.PRIORITY_DEFAULT
+                    }
+                val notificationManager =
+                    NotificationManagerCompat.from(this)
+                notificationManager.notify(1, noti.build())
+            }
+        }
+    }
+
+    private fun createNotificationChannel() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            val channelId = "CHANNEL ID"
+            val name = "my channel"
+            val importance = NotificationManager.IMPORTANCE_DEFAULT
+            val mChannel = NotificationChannel(channelId, name, importance).apply {
+                this.description = description
+            }
+            val notificationManager: NotificationManager =
+                getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+            notificationManager.createNotificationChannel(mChannel)
         }
     }
 
