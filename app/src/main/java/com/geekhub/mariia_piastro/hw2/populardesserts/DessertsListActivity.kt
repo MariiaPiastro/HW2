@@ -8,6 +8,7 @@ import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Build
 import android.os.Bundle
+import android.view.View
 import android.widget.FrameLayout
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
@@ -17,7 +18,7 @@ import androidx.core.content.ContextCompat
 import kotlinx.android.synthetic.main.activity_fragment.*
 
 
-class DessertsListActivity : AppCompatActivity(), DessertAdapter.Callback {
+class DessertsListActivity : AppCompatActivity(), DessertAdapter.Callback, View.OnClickListener {
 
     private var DESSERT_KEY = "DESSERT"
     private val REQUEST_CODE_PERMISSION_ACCESS_FINE_LOCATION = 1
@@ -43,7 +44,11 @@ class DessertsListActivity : AppCompatActivity(), DessertAdapter.Callback {
             if (supportFragmentManager.backStackEntryCount > 0)
                 supportFragmentManager.popBackStack()
             if (dessert == null)
-                dessert = Desserts("Десерт не выбран", "", R.drawable.empty_image)
+                dessert = Desserts(
+                    getString(R.string.dessert_is_not_selected),
+                    "",
+                    R.drawable.empty_image
+                )
             supportFragmentManager
                 .beginTransaction()
                 .replace(R.id.fragment_container_titles, DessertsListFragment())
@@ -53,7 +58,28 @@ class DessertsListActivity : AppCompatActivity(), DessertAdapter.Callback {
                 )
                 .commit()
         } else {
-            buttonLocation?.setOnClickListener {
+            buttonLocation?.setOnClickListener(this)
+            buttonNotification?.setOnClickListener(this)
+        }
+    }
+
+    private fun createNotificationChannel() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            val channelId = getString(R.string.channel_id)
+            val name = getString(R.string.channel_name)
+            val importance = NotificationManager.IMPORTANCE_DEFAULT
+            val mChannel = NotificationChannel(channelId, name, importance).apply {
+                this.description = description
+            }
+            val notificationManager: NotificationManager =
+                getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+            notificationManager.createNotificationChannel(mChannel)
+        }
+    }
+
+    override fun onClick(p0: View?) {
+        when (p0?.id) {
+            R.id.buttonLocation -> {
                 if (ContextCompat.checkSelfPermission(
                         this,
                         Manifest.permission.ACCESS_FINE_LOCATION
@@ -68,10 +94,9 @@ class DessertsListActivity : AppCompatActivity(), DessertAdapter.Callback {
                         ), REQUEST_CODE_PERMISSION_ACCESS_FINE_LOCATION
                     )
             }
-            buttonNotification?.setOnClickListener {
-
+            R.id.buttonNotification -> {
                 val noti =
-                    NotificationCompat.Builder(this, "CHANNEL ID").apply {
+                    NotificationCompat.Builder(this, getString(R.string.channel_id)).apply {
                         setContentTitle(getString(R.string.notification_title))
                         setContentText(getString(R.string.notification_text))
                         setSmallIcon(R.drawable.cake)
@@ -81,20 +106,6 @@ class DessertsListActivity : AppCompatActivity(), DessertAdapter.Callback {
                     NotificationManagerCompat.from(this)
                 notificationManager.notify(1, noti.build())
             }
-        }
-    }
-
-    private fun createNotificationChannel() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            val channelId = "CHANNEL ID"
-            val name = "my channel"
-            val importance = NotificationManager.IMPORTANCE_DEFAULT
-            val mChannel = NotificationChannel(channelId, name, importance).apply {
-                this.description = description
-            }
-            val notificationManager: NotificationManager =
-                getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
-            notificationManager.createNotificationChannel(mChannel)
         }
     }
 

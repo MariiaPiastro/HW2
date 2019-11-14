@@ -7,4 +7,9 @@
     <string name="button_notification">Показать уведомление</string>
     <string name="notification_title">Popular Desserts</string>
     <string name="notification_text">Пора съесть что-то сладенькое</string>
+    <string name="content_description_dessert">dessert</string>
+    <string name="channel_id">CHANNEL ID</string>
+    <string name="channel_name">my channel</string>
+    <string name="location">Координаты: %s : %s</string>
+    <string name="dessert_is_not_selected">Десерт не выбран</string>
 </resources>

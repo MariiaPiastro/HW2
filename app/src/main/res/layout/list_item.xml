@@ -14,7 +14,7 @@
             android:scaleType="centerInside"
             android:padding="8dp"
             tools:src="@drawable/dessert0"
-            />
+            android:contentDescription="@string/content_description_dessert" />
 
     <TextView
             android:id="@+id/TextViewTitleDessert"
